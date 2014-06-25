@@ -14,7 +14,8 @@ import simplejson
 from arsoapi.models import (
 	GeocodedRadar, GeocodedToca, GeocodedAladin,
 	RadarPadavin, Toca, Aladin,
-	mmph_to_level, WHITE
+	mmph_to_level,
+	WHITE
 	)
 
 from osgeo import gdal
