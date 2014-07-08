@@ -205,7 +205,7 @@ def tz2utc_diff():
 def report(request):
 	geocoded_radar.refresh()
 	geocoded_toca.refresh()
-	geocoded_aladin.refresh()
+	#geocoded_aladin.refresh()
 	
 	try:
 		lat = float(request.GET.get('lat'))
@@ -224,7 +224,7 @@ def report(request):
 	else:
 		posR, rain_mmph = geocoded_radar.get_rain_at_coords(lat, lon)
 		posT, toca_level = geocoded_toca.get_toca_at_coords(lat, lon)
-		posA, forecast = geocoded_aladin.get_forecast_at_coords(lat, lon)
+		#posA, forecast = geocoded_aladin.get_forecast_at_coords(lat, lon)
 		
 		utc_diff = tz2utc_diff()
 		
@@ -249,10 +249,10 @@ def report(request):
 				'hail_level': toca_level,
 			},
 			'forecast': {
-				'updated': _datetime2timestamp(geocoded_aladin.forecast_time.get(6, None)),
-				'x': posA[0],
-				'y': posA[1],
-				'data': forecast,
+				#'updated': _datetime2timestamp(geocoded_aladin.forecast_time.get(6, None)),
+				#'x': posA[0],
+				#'y': posA[1],
+				#'data': forecast,
 			}
 		}
 		return resp
