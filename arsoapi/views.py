@@ -140,20 +140,21 @@ def _kml_file(model):
 
 def kml_radar(request):
 	if request.GET.get('align'):
-		image_view = 'arsoapi.views.image_radar'
-	else:
 		image_view = 'arsoapi.views.align_radar'
-
+	else:
+		image_view = 'arsoapi.views.image_radar'
 	return _kml_radar(request, reverse(image_view))
 
 def _kml_radar(request, image_url):
 	m = geocoded_radar
 	m.refresh()
 	context = _kml_file(m)
+	expires = (datetime.datetime.utcnow().replace(microsecond=0) + datetime.timedelta(seconds=300)).isoformat() + 'Z'
 	context.update({
 		'host': request.META.get('HTTP_HOST', 'localhost'),
 		'image_url': image_url,
 		'description': 'Radarska slika padavin',
+		'expires': expires,
 		})
 	return render_to_response('template.kml', context)
 
@@ -161,10 +162,12 @@ def kml_toca(request):
 	m = geocoded_toca
 	m.refresh()
 	context = _kml_file(m)
+	expires = (datetime.datetime.utcnow().replace(microsecond=0) + datetime.timedelta(seconds=300)).isoformat() + 'Z'
 	context.update({
 		'host': request.META.get('HTTP_HOST', 'localhost'),
 		'image_url': reverse('arsoapi.views.image_toca'),
 		'description': 'Verjetnost toce',
+		'expires': expires,
 		})
 	return render_to_response('template.kml', context)
 
